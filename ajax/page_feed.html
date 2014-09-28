@@ -1,111 +1,136 @@
 <div class="row">
-	<div id="breadcrumb" class="col-md-12">
-		<ol class="breadcrumb">
-			<li><a href="index.html">Dashboard</a></li>
-			<li><a href="#">Pages</a></li>
-			<li><a href="#">Feed Page</a></li>
-		</ol>
-	</div>
+  <div id="breadcrumb" class="col-md-12">
+    <ol class="breadcrumb">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="#">Feed</a></li>
+    </ol>
+  </div>
 </div>
 <div class="row">
-	<div class="col-xs-12 page-feed">
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="col-xs-12 col-sm-12">
+    <div class="box">
+      <div class="box-header">
+        <div class="box-name">
+          <i class="fa fa-search"></i>
+          <span>Publish new item</span>
+        </div>
+        <div class="box-icons">
+          <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+          </a>
+          <a class="expand-link">
+            <i class="fa fa-expand"></i>
+          </a>
+          <a class="close-link">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+        <div class="no-move"></div>
+      </div>
+      <div class="box-content">
+        <form id="feed-form" class="form-horizontal" role="form">
+          <div class="form-group">
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="5" id="wysiwig_simple"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2">
+              <button type="submit" class="btn btn-primary btn-label-left">
+              <span><i class="fa fa-clock-o"></i></span>Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="feed-container"></div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    TinyMCEStart('#wysiwig_simple', null);
+    renderFeed();
+    $('#feed-form').submit(function(event){
+      var data = { 'item' : tinyMCE.activeEditor.getContent() };
+      $.ajax({
+        'beforeSend' : function(xhrObj){
+          xhrObj.setRequestHeader("Content-Type","application/json");
+        },
+        'type' : 'POST',
+        'url' : 'http://ec2-54-169-91-68.ap-southeast-1.compute.amazonaws.com/tui/feed/items/',
+        'data' : JSON.stringify(data)
+      }).done(function() {
+        tinyMCE.activeEditor.setContent('');
+        renderFeed();
+      });
+    });
+  });
+</script>
+<!---<div class="row">
+  <div class="col-xs-11 col-xs-offset-1 page-feed">
+    <div class="box">
+      <div class="avatar">
+        <img src="img/avatar.jpg" alt="Jane" />
+      </div>
+      <div class="page-feed-content">
+        <small class="time">Jane Devops, 12 min ago</small>
+        <p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
+        <div class="likebox">
+          <ul class="nav navbar-nav">
+            <li><i class="fa fa-thumbs-up"></i> 138</li>
+            <li><i class="fa fa-thumbs-down"></i> 47</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="avatar">
+        <img src="img/avatar.jpg" alt="Jane" />
+      </div>
+      <div class="page-feed-content">
+        <small class="time">Jane Devops, 12 min ago</small>
+        <p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
+        <div class="likebox">
+          <ul class="nav navbar-nav">
+            <li><i class="fa fa-thumbs-up"></i> 138</li>
+            <li><i class="fa fa-thumbs-down"></i> 47</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="row">
-	<div class="col-xs-11 col-xs-offset-1 page-feed">
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-10 col-xs-offset-2 page-feed">
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="box">
-			<div class="avatar">
-				<img src="img/avatar.jpg" alt="Jane" />
-			</div>
-			<div class="page-feed-content">
-				<small class="time">Jane Devops, 12 min ago</small>
-				<p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
-				<div class="likebox">
-					<ul class="nav navbar-nav">
-						<li><i class="fa fa-thumbs-up"></i> 138</li>
-						<li><i class="fa fa-thumbs-down"></i> 47</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+  <div class="col-xs-10 col-xs-offset-2 page-feed">
+    <div class="box">
+      <div class="avatar">
+        <img src="img/avatar.jpg" alt="Jane" />
+      </div>
+      <div class="page-feed-content">
+        <small class="time">Jane Devops, 12 min ago</small>
+        <p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
+        <div class="likebox">
+          <ul class="nav navbar-nav">
+            <li><i class="fa fa-thumbs-up"></i> 138</li>
+            <li><i class="fa fa-thumbs-down"></i> 47</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="avatar">
+        <img src="img/avatar.jpg" alt="Jane" />
+      </div>
+      <div class="page-feed-content">
+        <small class="time">Jane Devops, 12 min ago</small>
+        <p>Linux is a Unix-like and POSIX-compliant computer operating system assembled under the model of free and open source software development and distribution. Maemo - Software platform developed by Nokia and then handed over to Hildon Foundation for smartphones and Internet tablets</p>
+        <div class="likebox">
+          <ul class="nav navbar-nav">
+            <li><i class="fa fa-thumbs-up"></i> 138</li>
+            <li><i class="fa fa-thumbs-down"></i> 47</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->

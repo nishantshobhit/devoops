@@ -7,41 +7,11 @@
     </ol>
   </div>
 </div>
+
 <div class="row" id="map" style="margin-left: 3px; width: 1024px; height: 800px;"></div>
 
 <script type="text/javascript">
-    function render(locations) {     
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: new google.maps.LatLng(12.93, 77.59),
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      });
-
-      var infowindow = new google.maps.InfoWindow();
-
-      var marker, i;
-
-      for (i = 0; i < locations.length; i++) {  
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i]['lat'], locations[i]['long']),
-          map: map
-        });
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-            infowindow.setContent(locations[i]['label']);
-            infowindow.open(map, marker);
-          }
-        })(marker, i));
-      }
-    }
-    $(document).ready(function(){
-      $.ajax('ec2/')
-      var locations = [
-        {'label' : 'Bondi Beach', 'lat' : -33.890542, 'long' : 151.274856}
-      ];
-      render(locations);
-    });
-  </script>
-</body>
-</html>
+  $(document).ready(function(){
+    renderItems('spotfixes', 'SCHEDULED');
+  });
+</script>
