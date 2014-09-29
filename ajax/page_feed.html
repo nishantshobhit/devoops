@@ -49,7 +49,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     TinyMCEStart('#wysiwig_simple', null);
-    renderFeed();
+    startFeedView();
     $('#feed-form').submit(function(event){
       var data = { 'item' : tinyMCE.activeEditor.getContent() };
       $.ajax({
@@ -61,7 +61,7 @@
         'data' : JSON.stringify(data)
       }).done(function() {
         tinyMCE.activeEditor.setContent('');
-        renderFeed();
+        startFeedView();
       });
     });
   });
